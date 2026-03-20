@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  basic-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: List files
+        run: ls -R
+
+      - name: Validate required files exist
+        run: |
+          test -f index.html
+          test -f style.css || true
+          test -d js || true
+
+      - name: Basic HTML check
+        run: |
+          grep -q "<html" index.html
